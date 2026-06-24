@@ -4,23 +4,23 @@ const session = require("express-session");
 const passport = require("passport");
 
 // Importar configuração do Passport
-require("./config/passportConfig"); 
+require("./src/config/passportConfig"); 
 
 // Controllers
-const authController = require("./controllers/authController");
-const empresaController = require("./controllers/empresaController");
-const usuarioController = require("./controllers/usuarioController");
-const rondaController = require("./controllers/rondaController");
-const pontoRondaController = require("./controllers/pontoRondaController");
-const percursoController = require("./controllers/percursoController");
-const ocorrenciaController = require("./controllers/ocorrenciaController");
-const mensagemController = require("./controllers/mensagemController");
-const logAcessoController = require("./controllers/logAcessoController");
-const vigiaController = require("./controllers/vigiaController");
-const administradorController = require("./controllers/administradorController");
+const authController = require("./src/controllers/authController");
+const empresaController = require("./src/controllers/empresaController");
+const usuarioController = require("./src/controllers/usuarioController");
+const rondaController = require("./src/controllers/rondaController");
+const pontoRondaController = require("./src/controllers/pontoRondaController");
+const percursoController = require("./src/controllers/percursoController");
+const ocorrenciaController = require("./src/controllers/ocorrenciaController");
+const mensagemController = require("./src/controllers/mensagemController");
+const logAcessoController = require("./src/controllers/logAcessoController");
+const vigiaController = require("./src/controllers/vigiaController");
+const administradorController = require("./src/controllers/administradorController");
 
 // Models
-const db = require("./models");
+const db = require("./src/models");
 const app = express();
 
 // Configurar middlewares
