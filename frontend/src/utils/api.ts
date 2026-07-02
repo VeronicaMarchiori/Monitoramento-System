@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3001";
 
 export class ApiClient {
   private accessToken: string | null = null;
@@ -24,6 +24,7 @@ export class ApiClient {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       ...options,
       headers,
+      credentials: "include",
     });
 
     const data = await response.json().catch(() => ({}));
@@ -35,189 +36,254 @@ export class ApiClient {
     return data;
   }
 
-  // =====================
   // AUTENTICAÇÃO
-  // =====================
-
-  async login(email: string, senha: string) {
-    return this.request("/login", {
+  async login(login: string, senha: string) {
+    return this.request("/auth/login", {
       method: "POST",
-      body: JSON.stringify({ email, senha }),
+      body: JSON.stringify({ login, senha }),
     });
   }
 
-  async signup(data: {
-    email: string;
-    password: string;
-    name: string;
-    role: string;
-    cpf: string;
-  }) {
-    return this.request("/signup", {
+  async logout() {
+    return this.request("/auth/logout", {
       method: "POST",
-      body: JSON.stringify(data),
     });
   }
 
-  // =====================
-  // ESTABELECIMENTOS
-  // =====================
-
-  async createEstablishment(data: any) {
-    return this.request("/establishments", {
+  // EMPRESAS
+  async createEmpresa(data: any) {
+    return this.request("/empresas", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
-  async getEstablishments() {
-    return this.request("/establishments");
+  async getEmpresas() {
+    return this.request("/empresas");
   }
 
-  async updateEstablishment(id: string, data: any) {
-    return this.request(`/establishments/${id}`, {
+  async updateEmpresa(id: string | number, data: any) {
+    return this.request(`/empresas/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     });
   }
 
-  // =====================
-  // ROTAS
-  // =====================
-
-  async createRoute(data: any) {
-    return this.request("/routes", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  }
-
-  async getRoutes() {
-    return this.request("/routes");
-  }
-
-  async deleteRoute(id: string) {
-    return this.request(`/routes/${id}`, {
+  async deleteEmpresa(id: string | number) {
+    return this.request(`/empresas/${id}`, {
       method: "DELETE",
     });
   }
 
-  async getRoutePoints(routeId: string) {
-    return this.request(`/routes/${routeId}/points`);
-  }
-
-  // =====================
-  // FUNCIONÁRIOS
-  // =====================
-
-  async getEmployees() {
-    return this.request("/employees");
-  }
-
-  // =====================
-  // RONDAS
-  // =====================
-
-  async createRound(data: any) {
-    return this.request("/rounds", {
+  // RONDAS / ROTAS
+  async createRonda(data: any) {
+    return this.request("/rondas", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
-  async getRounds() {
-    return this.request("/rounds");
+  async getRondas() {
+    return this.request("/rondas");
   }
 
-  async updateRound(id: string, data: any) {
-    return this.request(`/rounds/${id}`, {
+  async updateRonda(id: string | number, data: any) {
+    return this.request(`/rondas/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     });
   }
 
-  async finishRound(id: string) {
-    return this.request(`/rounds/${id}/finish`, {
-      method: "POST",
+  async deleteRonda(id: string | number) {
+    return this.request(`/rondas/${id}`, {
+      method: "DELETE",
     });
   }
 
-  // =====================
-  // CHECKPOINTS
-  // =====================
-
-  async createCheckpoint(data: any) {
-    return this.request("/checkpoints", {
+  // PONTOS DE RONDA
+  async createPontoRonda(data: any) {
+    return this.request("/pontos-ronda", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
-  async getCheckpoints(roundId: string) {
-    return this.request(`/checkpoints/${roundId}`);
+  async getPontosRonda() {
+    return this.request("/pontos-ronda");
   }
 
-  async verifyCheckpoint(data: any) {
-    return this.request("/checkpoints/verify", {
+  async updatePontoRonda(id: string | number, data: any) {
+    return this.request(`/pontos-ronda/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deletePontoRonda(id: string | number) {
+    return this.request(`/pontos-ronda/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  // USUÁRIOS / FUNCIONÁRIOS
+  async getUsuarios() {
+    return this.request("/usuarios");
+  }
+
+  async createUsuario(data: any) {
+    return this.request("/usuarios", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
-  // =====================
+  async updateUsuario(id: string | number, data: any) {
+    return this.request(`/usuarios/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteUsuario(id: string | number) {
+    return this.request(`/usuarios/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  async getVigias() {
+    return this.request("/vigias");
+  }
+
+  async getAdministradores() {
+    return this.request("/administradores");
+  }
+
+  // PERCURSOS
+  async getPercursos() {
+    return this.request("/percursos");
+  }
+
+  async createPercurso(data: any) {
+    return this.request("/percursos", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updatePercurso(id: string | number, data: any) {
+    return this.request(`/percursos/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  }
+
   // OCORRÊNCIAS
-  // =====================
+  async createOcorrencia(data: any) {
+    return this.request("/ocorrencias", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getOcorrencias() {
+    return this.request("/ocorrencias");
+  }
+
+  async updateOcorrencia(id: string | number, data: any) {
+    return this.request(`/ocorrencias/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteOcorrencia(id: string | number) {
+    return this.request(`/ocorrencias/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  // MENSAGENS
+  async sendMensagem(data: any) {
+    return this.request("/mensagens", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getMensagens() {
+    return this.request("/mensagens");
+  }
+
+  // LOGS
+  async getLogsAcesso() {
+    return this.request("/logs-acesso");
+  }
+
+  // RELATÓRIOS
+  async getRelatorioRotas() {
+    const [empresas, rondas, usuarios, vigias, percursos, ocorrencias] =
+      await Promise.all([
+        this.getEmpresas(),
+        this.getRondas(),
+        this.getUsuarios(),
+        this.getVigias(),
+        this.getPercursos(),
+        this.getOcorrencias(),
+      ]);
+
+    return {
+      empresas,
+      rondas,
+      usuarios,
+      vigias,
+      percursos,
+      ocorrencias,
+    };
+  }
+
+  // Compatibilidade com nomes antigos do frontend - Refactor
+  async getEstablishments() {
+    return this.getEmpresas();
+  }
+
+  async createEstablishment(data: any) {
+    return this.createEmpresa(data);
+  }
+
+  async updateEstablishment(id: string | number, data: any) {
+    return this.updateEmpresa(id, data);
+  }
+
+  async getRoutes() {
+    return this.getRondas();
+  }
+
+  async createRoute(data: any) {
+    return this.createRonda(data);
+  }
+
+  async deleteRoute(id: string | number) {
+    return this.deleteRonda(id);
+  }
+
+  async getEmployees() {
+    return this.getUsuarios();
+  }
+
+  async getOccurrences() {
+    return this.getOcorrencias();
+  }
 
   async createOccurrence(data: any) {
-    return this.request("/occurrences", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    return this.createOcorrencia(data);
   }
 
-  async getOccurrences(routeId?: string) {
-    const query = routeId ? `?routeId=${routeId}` : "";
-    return this.request(`/occurrences${query}`);
+  async getMessages() {
+    return this.getMensagens();
   }
-
-  async getEmergencies() {
-    return this.request("/emergencies");
-  }
-
-  // =====================
-  // CHAT
-  // =====================
 
   async sendMessage(data: any) {
-    return this.request("/chat/messages", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  }
-
-  async getMessages(channelId?: string) {
-    const query = channelId ? `?channelId=${channelId}` : "";
-    return this.request(`/chat/messages${query}`);
-  }
-
-  // =====================
-  // RELATÓRIOS
-  // =====================
-
-  async getRoundsReport(filters: any = {}) {
-    const params = new URLSearchParams(filters);
-    return this.request(`/reports/rounds?${params}`);
-  }
-
-  // =====================
-  // SYNC
-  // =====================
-
-  async sync(actions: any[]) {
-    return this.request("/sync", {
-      method: "POST",
-      body: JSON.stringify({ actions }),
-    });
+    return this.sendMensagem(data);
   }
 }
 

@@ -211,7 +211,7 @@ export function EmployeesManager({
       };
 
       // Usar rota correta baseado no role
-      const apiUrl = getApiUrl(formData.role);
+      const apiUrl = `${API_BASE_URL}/usuarios`;
       console.log(JSON.stringify(backendData, null, 2))
 
       const response = await fetch(apiUrl, {
@@ -281,7 +281,6 @@ export function EmployeesManager({
 
     try {
       const backendData = {
-        login: editingEmployee.email, // Usando email como login
         nome: editingEmployee.name,
         email: editingEmployee.email,
         cpf: editingEmployee.cpf,
@@ -290,10 +289,7 @@ export function EmployeesManager({
       };
 
       // Usar rota correta baseado no role
-      const apiUrl = getApiUrl(
-        editingEmployee.role,
-        editingEmployee.id,
-      );
+      const apiUrl = `${API_BASE_URL}/usuarios/${editingEmployee.id}`;
 
       const response = await fetch(apiUrl, {
         method: "PUT",
@@ -375,7 +371,7 @@ export function EmployeesManager({
 
     try {
       // Usar rota correta baseado no role
-      const apiUrl = getApiUrl(employee.role, id);
+      const apiUrl = `${API_BASE_URL}/usuarios/${id}`;
 
       const response = await fetch(apiUrl, {
         method: "DELETE",
